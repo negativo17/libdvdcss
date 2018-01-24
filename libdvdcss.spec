@@ -36,7 +36,7 @@ make %{_smp_mflags}
 %install
 %make_install
 rm -fr %{buildroot}%{_docdir}/%{name} \
-    %{buildroot}%{_libdir}/*.a
+    %{buildroot}%{_libdir}/*.la
 
 %post -p /sbin/ldconfig
 
