@@ -1,6 +1,6 @@
 Summary:        A portable abstraction library for DVD decryption
 Name:           libdvdcss
-Version:        1.4.1
+Version:        1.4.2
 Release:        1%{?dist}
 License:        GPLv2+
 URL:            http://www.videolan.org/%{name}/
@@ -8,6 +8,7 @@ URL:            http://www.videolan.org/%{name}/
 Source:         http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
 
 BuildRequires:  doxygen
+
 Requires(post): ldconfig
 
 %description
@@ -31,7 +32,7 @@ you will need to install %{name}-devel.
 
 %build
 %configure --disable-static
-make %{_smp_mflags}
+%make_build
 
 %install
 %make_install
@@ -43,7 +44,8 @@ rm -fr %{buildroot}%{_docdir}/%{name} \
 %postun -p /sbin/ldconfig
 
 %files
-%doc AUTHORS COPYING ChangeLog README NEWS
+%license COPYING
+%doc AUTHORS ChangeLog README NEWS
 %{_libdir}/%{name}.so.*
 
 %files devel
@@ -53,6 +55,9 @@ rm -fr %{buildroot}%{_docdir}/%{name} \
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Apr 24 2018 Simone Caronni <negativo17@gmail.com> - 1.4.2-1
+- Update to 1.4.2.
+
 * Wed Jan 24 2018 Simone Caronni <negativo17@gmail.com> - 1.4.1-1
 - Update to 1.4.1.
 
