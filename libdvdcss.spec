@@ -1,11 +1,20 @@
+%global commit0 8398d94d70b4693086649d066dcb7aefe35ce1fa
+%global date 20191013
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+#global tag %{version}
+
 Summary:        A portable abstraction library for DVD decryption
 Name:           libdvdcss
-Version:        1.4.2
-Release:        2%{?dist}
+Version:        1.4.3
+Release:        1%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 License:        GPLv2+
 URL:            http://www.videolan.org/%{name}/
 
-Source:         http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
+%if 0%{?tag:1}
+Source0:        http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
+%else
+Source0:        https://code.videolan.org/videolan/%{name}/-/archive/%{commit0}/%{name}-%{commit0}.tar.bz2#/%{name}-%{shortcommit0}.tar.bz2
+%endif
 
 BuildRequires:  doxygen
 BuildRequires:  gcc
@@ -29,7 +38,11 @@ for %{name}. If you like to develop programs using %{name},
 you will need to install %{name}-devel.
 
 %prep
-%setup -q
+%if 0%{?tag:1}
+%autosetup
+%else
+%autosetup -n %{name}-%{commit0}
+%endif
 
 %build
 %configure --disable-static
@@ -40,9 +53,7 @@ you will need to install %{name}-devel.
 rm -fr %{buildroot}%{_docdir}/%{name} \
     %{buildroot}%{_libdir}/*.la
 
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 %files
 %license COPYING
@@ -56,6 +67,10 @@ rm -fr %{buildroot}%{_docdir}/%{name} \
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sun Jan 12 2020 Simone Caronni <negativo17@gmail.com> - 1.4.3-1.20191013git8398d94
+- Update to latest 1.4.3 snapshot.
+- Use RPM macros.
+
 * Thu Sep 20 2018 Simone Caronni <negativo17@gmail.com> - 1.4.2-2
 - Add GCC build requirement.
 
