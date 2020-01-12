@@ -18,8 +18,11 @@ Source0:        https://code.videolan.org/videolan/%{name}/-/archive/%{commit0}/
 
 BuildRequires:  doxygen
 BuildRequires:  gcc
-
-Requires(post): ldconfig
+%if 0%{!?tag:1}
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  libtool
+%endif
 
 %description
 This is a portable abstraction library for DVD decryption which is used by
@@ -45,6 +48,7 @@ you will need to install %{name}-devel.
 %endif
 
 %build
+autoreconf -vif
 %configure --disable-static
 %make_build
 
