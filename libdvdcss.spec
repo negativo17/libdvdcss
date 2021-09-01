@@ -1,12 +1,12 @@
 %global commit0 eb1f6ed7a012b390e23549778bcc7b54c55869d4
 %global date 20200429
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-#global tag %{version}
+%global tag %{version}
 
 Summary:        A portable abstraction library for DVD decryption
 Name:           libdvdcss
 Version:        1.4.3
-Release:        2%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Release:        3%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 License:        GPLv2+
 URL:            http://www.videolan.org/%{name}/
 
@@ -72,6 +72,9 @@ rm -fr %{buildroot}%{_docdir}/%{name} \
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Sep 01 2021 Simone Caronni <negativo17@gmail.com> - 1.4.3-3
+- Update to final 1.4.3 release.
+
 * Thu Dec 03 2020 Simone Caronni <negativo17@gmail.com> - 1.4.3-2.20200429giteb1f6ed
 - Explicitly declare shared object versions.
 
