@@ -16,13 +16,11 @@ Source0:        http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-
 Source0:        https://code.videolan.org/videolan/%{name}/-/archive/%{commit0}/%{name}-%{commit0}.tar.bz2#/%{name}-%{shortcommit0}.tar.bz2
 %endif
 
-BuildRequires:  doxygen
-BuildRequires:  gcc
-%if 0%{!?tag:1}
 BuildRequires:  autoconf
 BuildRequires:  automake
+BuildRequires:  doxygen
+BuildRequires:  gcc
 BuildRequires:  libtool
-%endif
 
 %description
 This is a portable abstraction library for DVD decryption which is used by
