@@ -1,17 +1,15 @@
 Summary:        A portable abstraction library for DVD decryption
 Name:           libdvdcss
-Version:        1.4.3
-Release:        4%{?dist}
+Version:        1.6.0
+Release:        1%{?dist}
 License:        GPLv2+
 URL:            http://www.videolan.org/%{name}/
 
-Source0:        http://www.videolan.org/pub/videolan/%{name}/%{version}/%{name}-%{version}.tar.bz2
+Source0:        https://code.videolan.org/videolan/libdvdcss/-/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  autoconf
-BuildRequires:  automake
 BuildRequires:  doxygen
 BuildRequires:  gcc
-BuildRequires:  libtool
+BuildRequires:  meson >= 0.60.0
 
 %description
 This is a portable abstraction library for DVD decryption which is used by
@@ -32,29 +30,37 @@ you will need to install %{name}-devel.
 %prep
 %autosetup
 
+# Old doxygen versions do not have the -q switch
+sed -i -e "s/'-q', //g" doc/meson.build
+
 %build
-autoreconf -vif
-%configure --disable-static
-%make_build
+%meson \
+    -Denable_docs=true \
+    -Denable_examples=true
+%meson_build
 
 %install
-%make_install
-rm -fr %{buildroot}%{_docdir}/%{name} \
-    %{buildroot}%{_libdir}/*.la
+%meson_install
+rm -f %{buildroot}%{_libdir}/*.a
 
 %files
-%license COPYING
-%doc AUTHORS ChangeLog README NEWS
+%license %{_pkgdocdir}/COPYING
+%doc %{_pkgdocdir}/AUTHORS
+%doc %{_pkgdocdir}/README.md
+%doc %{_pkgdocdir}/NEWS
 %{_libdir}/%{name}.so.2
-%{_libdir}/%{name}.so.2.2.0
+%{_libdir}/%{name}.so.2.4.0
 
 %files devel
-%doc doc/html
+%doc %{_pkgdocdir}/html
 %{_includedir}/dvdcss
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Fri Sep 11 2026 Simone Caronni <negativo17@gmail.com> - 1.6.0-1
+- Update to 1.6.0.
+
 * Thu Mar 13 2025 Simone Caronni <negativo17@gmail.com> - 1.4.3-4
 - Clean up SPEC file, trim changelog.
 
